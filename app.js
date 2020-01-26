@@ -5,16 +5,31 @@ function render(element){
     let li=document.createElement('li');
     let name = document.createElement('span');
     let city = document.createElement('span');
+    let cross=document.createElement('div');
 
     li.setAttribute('row-id',element.id);
     name.textContent=element.data().name;
     city.textContent = element.data().city;
+    cross.textContent='X';
     console.log(element.data().city);
     li.appendChild(name);
     li.appendChild(city);
-
+    li.appendChild(cross);
     cafehtml.appendChild(li);
-    }
+    
+
+cross.addEventListener('click',(e)=>{
+    let id=e.target.parentElement.getAttribute('row-id');
+    db.collection('cafes').doc(id).delete();
+})
+
+
+
+
+
+
+}
+
 
 //our data is in collection called cafe
 //use get method to fetch data
@@ -39,4 +54,6 @@ form.addEventListener('submit',(e)=>{
     });
     form.name.value='';
     form.city.value='';
+    //this is just to save data
+//data saved is not rerendered
 })
