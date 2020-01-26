@@ -45,6 +45,36 @@ db.collection('cafes').get().then((snapshot) => {
     })
 })
 
+db.collection('cafes').orderBy('name').onSnapshot(snapshot =>{
+    let changes=snapshot.docChanges();
+    changes.forEach(change => {
+        if(change.type == 'added')render(change.doc);
+        else if(change.type == 'removed'){
+            let li=document.querySelector('[row-id='+change.doc.id+']');
+            cafehtml.removeChild(li);
+        }  
+    })
+})
+//onSnapshot = on any change to DB
+
+//order data by name
+// db.collection('cafes').orderBy('name').get().then((snapshot) => {
+
+//     snapshot.docs.forEach(doc => {
+//         // console.log(doc.data());
+//         render(doc);
+//     })
+// })
+
+
+//renders cafes in mirzapur only
+// db.collection('cafes').where('city','==','mirzapur').get().then((snapshot) => {
+
+//     snapshot.docs.forEach(doc => {
+//         // console.log(doc.data());
+//         render(doc);
+//     })
+// })
 
 form.addEventListener('submit',(e)=>{
     e.preventDefault();
@@ -55,5 +85,5 @@ form.addEventListener('submit',(e)=>{
     form.name.value='';
     form.city.value='';
     //this is just to save data
-//data saved is not rerendered
+//saved data is not re-rendered
 })
